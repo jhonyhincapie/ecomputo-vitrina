@@ -1,26 +1,292 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   ECOMPUTO — dirección "Vitrina"
+   Elegida por Jhony el 2026-08-23 sobre las tres opciones de
+   docs/tres-direcciones.html. Reemplaza a la paleta oscura
+   "Electric Tech" del sitio anterior.
+
+   El sitio es la vitrina; WhatsApp es el mostrador. El fondo claro
+   es una decisión de negocio antes que estética: ECOMPUTO lleva
+   15 años vendiendo y ahora vende a todo el país sin local, así
+   que la página tiene que leerse como comercio establecido y
+   sobrevivir a un celular a pleno sol.
+
+   Contrastes verificados contra WCAG AA. Ver CLAUDE.md.
+   ============================================================ */
+@theme {
+  --color-brand-bg: #ffffff;          /* fondo de página */
+  --color-brand-surface: #f5f7fa;     /* secciones y superficies */
+  --color-brand-surface-2: #edf1f6;   /* fondo de foto de producto */
+  --color-brand-border: #e1e7ef;      /* bordes sutiles */
+  --color-brand-border-strong: #c6d0de;
+
+  --color-brand-ink: #0e1726;         /* texto principal — 16.4:1 */
+  --color-brand-ink-soft: #55627a;    /* texto secundario — 6.3:1 */
+  --color-brand-ink-faint: #6b7688;   /* texto tenue — 4.7:1 */
+  --color-brand-ink-mute: #94a0b4;    /* SOLO iconos y bordes — 2.6:1, no texto */
+
+  --color-brand-accent: #1668d6;      /* acción principal — 5.4:1 sobre blanco */
+  --color-brand-accent-hover: #1257b8;
+  --color-brand-accent-soft: #eaf2fd; /* fondo de realce */
+
+  --color-brand-ok: #0f7b4f;          /* disponibilidad */
+  --color-brand-alert: #b42318;       /* error, agotado */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Las define next/font en el <html>. Ver app/layout.tsx.
+     Hanken Grotesk para leer, Schibsted Grotesk para titular. */
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
+  /* Sin display propia para monoespaciada: no se usa monospace como
+     atajo de «técnico». Los números van en la display con tabular-nums. */
+  --font-mono: ui-monospace, "Cascadia Code", Menlo, monospace;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ------------------------------------------------------------
+   Tokens semánticos de shadcn mapeados a la dirección Vitrina.
+   El sitio es claro siempre. `.dark` repite los mismos valores por
+   si algún componente de shadcn aplica la clase por su cuenta.
+   ------------------------------------------------------------ */
+:root {
+  --background: #ffffff;
+  --foreground: #0e1726;
+
+  --card: #ffffff;
+  --card-foreground: #0e1726;
+  --popover: #ffffff;
+  --popover-foreground: #0e1726;
+
+  --primary: #1668d6;
+  --primary-foreground: #ffffff;
+
+  --secondary: #f5f7fa;
+  --secondary-foreground: #0e1726;
+
+  --muted: #f5f7fa;
+  --muted-foreground: #55627a;
+
+  --accent: #eaf2fd;
+  --accent-foreground: #1257b8;
+
+  --destructive: #b42318;
+
+  --border: #e1e7ef;
+  --input: #c6d0de;
+  --ring: #1668d6;
+
+  --chart-1: #1668d6;
+  --chart-2: #0f7b4f;
+  --chart-3: #55627a;
+  --chart-4: #94a0b4;
+  --chart-5: #c6d0de;
+
+  /* Vitrina usa esquinas de 6 px: comercial sin caer en la píldora. */
+  --radius: 0.375rem;
+
+  --sidebar: #f5f7fa;
+  --sidebar-foreground: #0e1726;
+  --sidebar-primary: #1668d6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eaf2fd;
+  --sidebar-accent-foreground: #1257b8;
+  --sidebar-border: #e1e7ef;
+  --sidebar-ring: #1668d6;
+}
+
+.dark {
+  --background: #ffffff;
+  --foreground: #0e1726;
+  --card: #ffffff;
+  --card-foreground: #0e1726;
+  --popover: #ffffff;
+  --popover-foreground: #0e1726;
+  --primary: #1668d6;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f7fa;
+  --secondary-foreground: #0e1726;
+  --muted: #f5f7fa;
+  --muted-foreground: #55627a;
+  --accent: #eaf2fd;
+  --accent-foreground: #1257b8;
+  --destructive: #b42318;
+  --border: #e1e7ef;
+  --input: #c6d0de;
+  --ring: #1668d6;
+  --sidebar: #f5f7fa;
+  --sidebar-foreground: #0e1726;
+  --sidebar-primary: #1668d6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eaf2fd;
+  --sidebar-accent-foreground: #1257b8;
+  --sidebar-border: #e1e7ef;
+  --sidebar-ring: #1668d6;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+    /* La barra es sticky: sin esto, saltar a un ancla —incluido el enlace
+       de «saltar al contenido»— deja el destino tapado debajo de ella. */
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Scrollbar discreta: en fondo claro no debe llamar la atención */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f7fa;
+}
+::-webkit-scrollbar-thumb {
+  background: #c6d0de;
+  border-radius: 999px;
+  border: 3px solid #f5f7fa;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a0b4;
+}
+
+/* ============================================================
+   SISTEMA DE MOVIMIENTO
+   Valores definidos en docs/sistema-de-movimiento.html.
+   Cualquier duración escrita a mano en un componente es un error:
+   sale de aquí o no existe.
+   ============================================================ */
+
+/* El namespace --ease-* de Tailwind 4 genera utilidades. Redefinir
+   --ease-out aquí es intencional: hace que la utilidad `ease-out` use
+   nuestra curva en todo el sitio, no la floja de fábrica. */
+@theme {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-hover: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Tiempos y distancias no tienen namespace propio en Tailwind 4.
+   Se usan desde CSS o con duration-[var(--t-swift)]. */
+:root {
+  --t-instant: 100ms;  /* presión de botón */
+  --t-quick: 160ms;    /* hover, color, foco */
+  --t-swift: 220ms;    /* acordeón, elevación */
+  --t-smooth: 320ms;   /* menú, chip, morph */
+  --t-drawer: 420ms;   /* hoja, medidor, aviso */
+  --t-reveal: 620ms;   /* aparición al bajar */
+  --t-hero: 800ms;     /* coreografía de carga */
+
+  --lift-1: 4px;       /* elevación al pasar el cursor */
+  --lift-2: 8px;       /* entrada de elemento pequeño */
+  --lift-3: 12px;      /* entrada de tarjeta */
+  --lift-4: 20px;      /* aparición de sección */
+  --press: 0.97;       /* escala al presionar */
+  --enter: 0.95;       /* escala de entrada */
+  --stagger: 55ms;     /* retardo entre hermanos */
+
+  /* Profundidad sobre fondo claro. Sombras cortas y de baja opacidad:
+     las que servían en el navy oscuro aquí se verían como manchas.
+     La luz sigue viniendo de arriba a la izquierda. */
+  --shadow-rest: 0 1px 2px rgba(14, 23, 38, 0.06), 0 1px 3px rgba(14, 23, 38, 0.04);
+  --shadow-lift: 0 8px 20px -6px rgba(14, 23, 38, 0.12), 0 2px 6px rgba(14, 23, 38, 0.06);
+}
+
+/* ------------------------------------------------------------
+   Coreografía de carga del hero.
+
+   El estado por defecto es VISIBLE: estas reglas solo reproducen la
+   entrada cuando el componente marca [data-choreograph="on"], que
+   ocurre una sola vez por sesión. Si el JS falla, el hero se ve igual.
+
+   Tiempos de docs/sistema-de-movimiento.html: cada pieza sube --lift-4
+   en --t-reveal, con 80-100 ms de desfase entre una y otra.
+   ------------------------------------------------------------ */
+[data-choreograph="on"] [data-paso] {
+  animation: eco-entrada var(--t-reveal) var(--ease-out) backwards;
+}
+[data-choreograph="on"] [data-paso="1"] { animation-delay: 80ms; }
+[data-choreograph="on"] [data-paso="2"] { animation-delay: 160ms; }
+[data-choreograph="on"] [data-paso="3"] { animation-delay: 260ms; }
+[data-choreograph="on"] [data-paso="4"] { animation-delay: 340ms; }
+[data-choreograph="on"] [data-paso="5"] { animation-delay: 420ms; }
+
+@keyframes eco-entrada {
+  from { opacity: 0; transform: translateY(var(--lift-4)); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* El sistema se calma redefiniendo tokens, no reescribiendo reglas.
+   --t-instant y --t-quick SE CONSERVAN: gobiernan color y opacidad, que
+   siguen explicando qué cambió. Movimiento reducido no es cero animación. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --lift-1: 0px;
+    --lift-2: 0px;
+    --lift-3: 0px;
+    --lift-4: 0px;
+    --press: 1;
+    --enter: 1;
+
+    --t-swift: 1ms;
+    --t-smooth: 1ms;
+    --t-drawer: 1ms;
+    --t-reveal: 1ms;
+    --t-hero: 1ms;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
 }
